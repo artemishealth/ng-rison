@@ -1,11 +1,20 @@
 {
   "extends": "../tsconfig.json",
+  "files": ["index.ts"],
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "types": []
+    "outDir": "../dist",
+    "rootDir": ".",
+    "declaration": true,
+    "declarationDir": "../"
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "enableResourceInlining": true,
+    "flatModuleId": "ng-rison",
+    "flatModuleOutFile": "ng-rison.js",
+    "fullTemplateTypeCheck": true,
+    "skipTemplateCodegen": true,
+    "strictInjectionParameters": true,
+    "strictMetadataEmit": true
+  }
 }

@@ -1,10 +1,18 @@
 {
   "name": "ng-rison",
   "version": "0.0.0",
+  "main": "./bundles/ng-rison.umd.js",
+  "module": "./dist/ng-rison.es5.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "clean": "rm -rf dist bundles",
+    "start": "npm run build && npm run bundle",
+    "watch": "watch --wait=5 'npm run start' src/",
+    "build": "ngc -p src/tsconfig.app.json",
+    "bundle": "npm run bundle:es5 ; npm run bundle:umd  ; npm run minify:umd",
+    "bundle:es5": "rollup -c config/rollup-es5.config.js --silent",
+    "bundle:umd": "rollup -c config/rollup-umd.config.js --silent",
+    "minify:umd": "terser bundles/$npm_package_name.umd.js -o bundles/$npm_package_name.umd.min.js --source-map=\"filename=bundles/$npm_package_name.umd.min.js.map\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -29,9 +37,9 @@
     "@angular/cli": "~7.3.6",
     "@angular/compiler-cli": "~7.2.0",
     "@angular/language-service": "~7.2.0",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
@@ -41,8 +49,14 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",
+    "rollup": "^1.7.3",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "terser": "^3.17.0",
     "ts-node": "~7.0.0",
+    "tsickle": "^0.34.3",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "watch": "^1.0.2"
   }
 }

@@ -1,0 +1,39 @@
+{
+  "editor.autoIndent": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.github": true,
+    "**/.idea": true,
+    "**/.svn": true,
+    "**/*.css": true,
+    "**/node_modules": true
+  },
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "html.format.enable": true,
+  "html.format.wrapAttributes": "force-aligned",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "prettier.tslintIntegration": true,
+  "prettier.stylelintIntegration": true,
+  "prettier.disableLanguages": ["html"],
+  "search.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.vscode": true,
+    "**/.idea": true,
+    "**/.github": true,
+    "**/*.css": true,
+    "dist": true
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
