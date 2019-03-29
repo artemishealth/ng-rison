@@ -1,6 +1,6 @@
 # NgRison
 
-This project is based with [angular-rison](https://github.com/JoshLipps/angular-rison).
+This project is based on [angular-rison](https://github.com/JoshLipps/angular-rison).
 It is an Angular module with a service for converting JavaScript structures into URL-friendly strings and vice versa
 
 ## Install
