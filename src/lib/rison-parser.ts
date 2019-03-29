@@ -1,8 +1,4 @@
-const NOT_ID_CHAR = ' \'!:(),*@$'
-const NOT_ID_START = '-0123456789'
-const ID_REGULAR_EXPRESSION = '[^' + NOT_ID_START + NOT_ID_CHAR + '][^' + NOT_ID_CHAR + ']*'
-export const ID_OK = new RegExp('^' + ID_REGULAR_EXPRESSION + '$')
-export const NEXT_ID = new RegExp(ID_REGULAR_EXPRESSION, 'g')
+import { UTILS } from './utils'
 
 export class RisonParser {
   constructor(private errorHandler: Function) {
@@ -127,7 +123,7 @@ export class RisonParser {
       if (s === '-') {
         return this.error('invalid number')
       }
-      if (this.leadingOrTrailingZero(s)) {
+      if (UTILS.LEADING_OR_TRAILING_ZERO(s)) {
         return s
       } else {
         return Number(s)
@@ -169,8 +165,8 @@ export class RisonParser {
 
     // Regexp.lastIndex may not work right in IE before 5.5?
     // g flag on the regexp is also necessary
-    NEXT_ID.lastIndex = i
-    const m = NEXT_ID.exec(s)
+    UTILS.NEXT_ID.lastIndex = i
+    const m = UTILS.NEXT_ID.exec(s)
 
     // console.log('matched id', i, r.lastIndex);
 
@@ -229,9 +225,5 @@ export class RisonParser {
       ar.push(n)
     }
     return ar
-  }
-
-  private leadingOrTrailingZero = (value: string) => {
-    return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0'
   }
 }

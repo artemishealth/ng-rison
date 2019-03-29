@@ -15,7 +15,22 @@
     /** @type {?} */
     var ID_REGULAR_EXPRESSION = '[^' + NOT_ID_START + NOT_ID_CHAR + '][^' + NOT_ID_CHAR + ']*';
     /** @type {?} */
-    var NEXT_ID = new RegExp(ID_REGULAR_EXPRESSION, 'g');
+    var UTILS = {
+        ID_OK: new RegExp('^' + ID_REGULAR_EXPRESSION + '$'),
+        NEXT_ID: new RegExp(ID_REGULAR_EXPRESSION, 'g'),
+        LEADING_OR_TRAILING_ZERO: (/**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
+            return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0';
+        }),
+    };
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
     var RisonParser = /** @class */ (function () {
         function RisonParser(errorHandler) {
             var _this = this;
@@ -172,7 +187,7 @@
                     if (s === '-') {
                         return _this.error('invalid number');
                     }
-                    if (_this.leadingOrTrailingZero(s)) {
+                    if (UTILS.LEADING_OR_TRAILING_ZERO(s)) {
                         return s;
                     }
                     else {
@@ -186,13 +201,6 @@
                 n: null,
                 '(': this.parseArray,
             };
-            this.leadingOrTrailingZero = (/**
-             * @param {?} value
-             * @return {?}
-             */
-            function (value) {
-                return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0';
-            });
             // copy table['-'] to each of table[i] | i <- '0'..'9':
             for (var i = 0; i <= 9; i++) {
                 this.table[String(i)] = this.table['-'];
@@ -244,9 +252,9 @@
             ;
             // Regexp.lastIndex may not work right in IE before 5.5?
             // g flag on the regexp is also necessary
-            NEXT_ID.lastIndex = i;
+            UTILS.NEXT_ID.lastIndex = i;
             /** @type {?} */
-            var m = NEXT_ID.exec(s)
+            var m = UTILS.NEXT_ID.exec(s)
             // console.log('matched id', i, r.lastIndex);
             ;
             // console.log('matched id', i, r.lastIndex);
@@ -345,43 +353,167 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var RisonService = /** @class */ (function () {
-        function RisonService() {
-            this.notIdChar = ' \'!:(),*@$';
-            this.notIdStart = '-0123456789';
-            this.idRegularExpression = '[^' + this.notIdStart + this.notIdChar + '][^' + this.notIdChar + ']*';
-            this.idOk = new RegExp('^' + this.idRegularExpression + '$');
-            this.nextId = new RegExp(this.idRegularExpression, 'g');
-            this.sq = {
-                '\'': true,
-                '!': true,
+    var RisonStringifier = /** @class */ (function () {
+        function RisonStringifier() {
+            var _this = this;
+            // url-ok but quoted in strings
+            this.sq = { '\'': true, '!': true };
+            this.stringMap = {
+                array: (/**
+                 * @param {?} arr
+                 * @return {?}
+                 */
+                function (arr) {
+                    /** @type {?} */
+                    var stringParts = arr.map((/**
+                     * @param {?} rawValue
+                     * @return {?}
+                     */
+                    function (rawValue) {
+                        /** @type {?} */
+                        var fn = _this.stringMap[typeof rawValue];
+                        if (fn) {
+                            return fn(rawValue);
+                        }
+                    }));
+                    return "!(" + stringParts.join(',') + ")";
+                }),
+                boolean: (/**
+                 * @param {?} bool
+                 * @return {?}
+                 */
+                function (bool) { return (bool ? '!t' : '!f'); }),
+                null: (/**
+                 * @param {?} n
+                 * @return {?}
+                 */
+                function (n) { return '!n'; }),
+                number: (/**
+                 * @param {?} num
+                 * @return {?}
+                 */
+                function (num) {
+                    if (!isFinite(num)) {
+                        return '!n';
+                    }
+                    // strip '+' out of exponent, '-' is ok though
+                    return String(num).replace(/\+/, '');
+                }),
+                object: (/**
+                 * @param {?} obj
+                 * @return {?}
+                 */
+                function (obj) {
+                    if (obj) {
+                        if (obj instanceof Array) {
+                            return _this.stringMap.array(obj);
+                        }
+                        if (typeof obj.__prototype__ === 'object' && typeof obj.__prototype__.encode_rison !== 'undefined') {
+                            return obj.encode_rison();
+                        }
+                        /** @type {?} */
+                        var keys = Object.keys(obj);
+                        keys.sort();
+                        /** @type {?} */
+                        var stringParts = keys.map((/**
+                         * @param {?} key
+                         * @return {?}
+                         */
+                        function (key) {
+                            /** @type {?} */
+                            var rawValue = obj[key];
+                            /** @type {?} */
+                            var fn = _this.stringMap[typeof rawValue];
+                            return _this.stringMap.string(key) + ":" + fn(rawValue);
+                        }));
+                        return "(" + stringParts.join(',') + ")";
+                    }
+                    return '!n';
+                }),
+                string: (/**
+                 * @param {?} str
+                 * @return {?}
+                 */
+                function (str) {
+                    if (str === '') {
+                        return "''";
+                    }
+                    if (!isNaN((/** @type {?} */ (((/** @type {?} */ (str)))))) && UTILS.LEADING_OR_TRAILING_ZERO(str)) {
+                        return str;
+                    }
+                    if (UTILS.ID_OK.test(str)) {
+                        return str;
+                    }
+                    /** @type {?} */
+                    var formattedString = str.replace(/(['!])/g, (/**
+                     * @param {?} a
+                     * @param {?} b
+                     * @return {?}
+                     */
+                    function (a, b) {
+                        if (_this.sq[b]) {
+                            return '!' + b;
+                        }
+                        return b;
+                    }));
+                    return "'" + formattedString + "'";
+                }),
+                undefined: (/**
+                 * @param {?} x
+                 * @return {?}
+                 */
+                function (x) {
+                    throw new Error('rison can\'t encode the undefined value');
+                }),
             };
         }
-        // tslint:disable-next-line: no-any
-        // tslint:disable-next-line: no-any
         /**
          * @param {?} obj
          * @return {?}
          */
-        RisonService.prototype.stringify = 
-        // tslint:disable-next-line: no-any
-        /**
+        RisonStringifier.prototype.stringify = /**
          * @param {?} obj
          * @return {?}
          */
         function (obj) {
-            return '';
-            // return ID_REGULAR_EXPRESSION
+            return this.stringMap[typeof obj](obj);
         };
-        // tslint:disable-next-line: no-any
-        // tslint:disable-next-line: no-any
+        return RisonStringifier;
+    }());
+
+    /**
+     * @fileoverview added by tsickle
+     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     */
+    var RisonService = /** @class */ (function () {
+        function RisonService() {
+        }
         /**
+         * This method Rison-encodes a javascript structure.
+         */
+        /**
+         * This method Rison-encodes a javascript structure.
+         * @param {?} obj
+         * @return {?}
+         */
+        RisonService.prototype.stringify = /**
+         * This method Rison-encodes a javascript structure.
+         * @param {?} obj
+         * @return {?}
+         */
+        function (obj) {
+            return new RisonStringifier().stringify(obj);
+        };
+        /**
+         * This method parses a rison string into a javascript object or primitive
+         */
+        /**
+         * This method parses a rison string into a javascript object or primitive
          * @param {?} url
          * @return {?}
          */
-        RisonService.prototype.parse = 
-        // tslint:disable-next-line: no-any
-        /**
+        RisonService.prototype.parse = /**
+         * This method parses a rison string into a javascript object or primitive
          * @param {?} url
          * @return {?}
          */
@@ -422,6 +554,8 @@
     exports.NgRisonModule = NgRisonModule;
     exports.RisonParser = RisonParser;
     exports.RisonService = RisonService;
+    exports.RisonStringifier = RisonStringifier;
+    exports.UTILS = UTILS;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
