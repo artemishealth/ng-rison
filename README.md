@@ -10,7 +10,8 @@ npm install git+https://github.com/artemishealth/ng-rison.git
 
 ## Usage
 #### Module setup
-```
+
+```js
 import { NgModule } from '@angular/core';
 import { NgRisonModule } from 'ng-rison';
 
@@ -20,14 +21,14 @@ import { NgRisonModule } from 'ng-rison';
 export class MyModule {}
 ```
 #### In a Component
-```
+
+```js
 import { RisonService } from 'ng-rison'
 
 @Component({
-    selector: 'app-my-component',
-    ...
+	// ...
 })
-export class HccRxComponent extends BaseStandardStory {
+export class FooComponent {
 	constructor(private risonService: RisonService) {}
 }
 ```
