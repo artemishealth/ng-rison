@@ -1,6 +1,6 @@
 {
   "name": "ng-rison",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "./bundles/ng-rison.umd.js",
   "module": "./dist/ng-rison.es5.js",
   "types": "./dist/index.d.ts",
