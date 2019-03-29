@@ -60,6 +60,12 @@ const DECODED_RISON = [
   'Unicode: ௫',
 ]
 
+describe('Test Cases', function() {
+  it('Have Equal Length', function() {
+    expect(ENCODED_RISON.length).toEqual(DECODED_RISON.length)
+  })
+})
+
 describe('RisonService', () => {
   beforeEach(() => TestBed.configureTestingModule({ providers: [RisonService] }))
 
@@ -70,9 +76,16 @@ describe('RisonService', () => {
 
   describe('method tests', () => {
     describe('parse', () => {
-      it('url should be parsed properly', inject([RisonService], (service: RisonService) => {
+      it('string should be parsed properly', inject([RisonService], (service: RisonService) => {
         ENCODED_RISON.forEach((encoded, index) => {
           expect(service.parse(encoded)).toEqual(DECODED_RISON[index])
+        })
+      }))
+    })
+    describe('stringify', () => {
+      it('JS structure should be stringified properly', inject([RisonService], (service: RisonService) => {
+        DECODED_RISON.forEach((decoded, index) => {
+          expect(service.stringify(decoded)).toEqual(ENCODED_RISON[index])
         })
       }))
     })
