@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
     typeof define === 'function' && define.amd ? define(['exports', '@angular/core'], factory) :
     (global = global || self, factory((global.zef = global.zef || {}, global.zef.ngRison = {}), global.ng.core));
-}(this, function (exports, core) { 'use strict';
+}(this, (function (exports, core) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
@@ -14,17 +14,18 @@
     var NOT_ID_START = '-0123456789';
     /** @type {?} */
     var ID_REGULAR_EXPRESSION = '[^' + NOT_ID_START + NOT_ID_CHAR + '][^' + NOT_ID_CHAR + ']*';
+    var ɵ0 = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0';
+    };
     /** @type {?} */
     var UTILS = {
         ID_OK: new RegExp('^' + ID_REGULAR_EXPRESSION + '$'),
         NEXT_ID: new RegExp(ID_REGULAR_EXPRESSION, 'g'),
-        LEADING_OR_TRAILING_ZERO: (/**
-         * @param {?} value
-         * @return {?}
-         */
-        function (value) {
-            return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0';
-        }),
+        LEADING_OR_TRAILING_ZERO: (ɵ0),
     };
 
     /**
@@ -559,5 +560,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=ng-rison.umd.js.map
