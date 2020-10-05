@@ -2,33 +2,34 @@ import { TestBed, inject } from '@angular/core/testing'
 
 import { RisonService } from './rison.service'
 
+/* tslint:disable:quotemark */
 const ENCODED_RISON = [
   '(a:0126,b:1)',
-  '(a:0,b:foo,c:\'23skidoo\')',
-  '(a:2.20,b:foo,c:\'23skidoo\')',
+  "(a:0,b:foo,c:'23skidoo')",
+  "(a:2.20,b:foo,c:'23skidoo')",
   '!t',
   '!f',
   '!n',
-  '\'\'',
+  "''",
   '0',
   '1.5',
   '-3',
   'a',
-  '\'abc def\'',
+  "'abc def'",
   '()',
   '(a:0)',
   '(id:!n,type:/common/document)',
   '!()',
-  '!(!t,!f,!n,\'\')',
-  '\'-h\'',
+  "!(!t,!f,!n,'')",
+  "'-h'",
   'a-z',
-  '\'wow!!\'',
+  "'wow!!'",
   'domain.com',
-  '\'user@domain.com\'',
-  '\'US $10\'',
-  '\'can!\'t\'',
-  '\'Control-F: \u0006\'',
-  '\'Unicode: \u0beb\'',
+  "'user@domain.com'",
+  "'US $10'",
+  "'can!'t'",
+  "'Control-F: \u0006'",
+  "'Unicode: \u0beb'",
 ]
 
 const DECODED_RISON = [
@@ -55,13 +56,14 @@ const DECODED_RISON = [
   'domain.com',
   'user@domain.com',
   'US $10',
-  'can\'t',
+  "can't",
   'Control-F: \u0006',
   'Unicode: ௫',
 ]
+/* tslint:enable:quotemark */
 
-describe('Test Cases', function() {
-  it('Have Equal Length', function() {
+describe('Test Cases', function () {
+  it('Have Equal Length', function () {
     expect(ENCODED_RISON.length).toEqual(DECODED_RISON.length)
   })
 })
@@ -70,7 +72,7 @@ describe('RisonService', () => {
   beforeEach(() => TestBed.configureTestingModule({ providers: [RisonService] }))
 
   it('should be created', () => {
-    const service: RisonService = TestBed.get(RisonService)
+    const service: RisonService = TestBed.inject(RisonService)
     expect(service).toBeTruthy()
   })
 
