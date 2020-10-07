@@ -1,8 +1,24 @@
 {
-  "editor.autoIndent": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.autoIndent": "full",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true,
+    "source.fixAll.stylelint": true
+  },
   "editor.detectIndentation": false,
   "editor.formatOnSave": true,
-  "editor.rulers": [120],
+  "editor.rulers": [80],
   "editor.tabSize": 2,
   "files.exclude": {
     "**/.DS_Store": true,
@@ -10,8 +26,10 @@
     "**/.github": true,
     "**/.idea": true,
     "**/.svn": true,
-    "**/*.css": true,
-    "**/node_modules": true
+    "**/.vscode": true,
+    "**/node_modules": true,
+    "tmp": true,
+    "coverage": true
   },
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -19,8 +37,6 @@
   "html.format.wrapAttributes": "force-aligned",
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "prettier.tslintIntegration": true,
-  "prettier.stylelintIntegration": true,
   "prettier.disableLanguages": ["html"],
   "search.exclude": {
     "**/.git": true,
@@ -31,9 +47,10 @@
     "**/.idea": true,
     "**/.github": true,
     "**/*.css": true,
-    "dist": true
+    "tmp": true,
+    "coverage": true
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }

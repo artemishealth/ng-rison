@@ -1,17 +1,21 @@
 {
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "downlevelIteration": true,
     "inlineSources": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": true,
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "es2015",
     "typeRoots": ["node_modules/@types"],
     "strict": false,
     "strictNullChecks": true,

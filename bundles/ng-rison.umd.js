@@ -2,27 +2,28 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
     typeof define === 'function' && define.amd ? define(['exports', '@angular/core'], factory) :
     (global = global || self, factory((global.zef = global.zef || {}, global.zef.ngRison = {}), global.ng.core));
-}(this, (function (exports, core) { 'use strict';
+}(this, function (exports, core) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: lib/utils.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /** @type {?} */
-    var NOT_ID_CHAR = ' \'!:(),*@$';
+    const NOT_ID_CHAR = ' \'!:(),*@$';
     /** @type {?} */
-    var NOT_ID_START = '-0123456789';
+    const NOT_ID_START = '-0123456789';
     /** @type {?} */
-    var ID_REGULAR_EXPRESSION = '[^' + NOT_ID_START + NOT_ID_CHAR + '][^' + NOT_ID_CHAR + ']*';
-    var ɵ0 = /**
+    const ID_REGULAR_EXPRESSION = '[^' + NOT_ID_START + NOT_ID_CHAR + '][^' + NOT_ID_CHAR + ']*';
+    const ɵ0 = /**
      * @param {?} value
      * @return {?}
      */
-    function (value) {
+    (value) => {
         return value.substring(0, 1) === '0' || value.substring(value.length - 1) === '0';
     };
     /** @type {?} */
-    var UTILS = {
+    const UTILS = {
         ID_OK: new RegExp('^' + ID_REGULAR_EXPRESSION + '$'),
         NEXT_ID: new RegExp(ID_REGULAR_EXPRESSION, 'g'),
         LEADING_OR_TRAILING_ZERO: (ɵ0),
@@ -30,11 +31,14 @@
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: lib/rison-parser.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var RisonParser = /** @class */ (function () {
-        function RisonParser(errorHandler) {
-            var _this = this;
+    class RisonParser {
+        /**
+         * @param {?} errorHandler
+         */
+        constructor(errorHandler) {
             this.errorHandler = errorHandler;
             this.whitespace = '';
             this.index = 0;
@@ -43,56 +47,56 @@
                 '!': (/**
                  * @return {?}
                  */
-                function () {
+                () => {
                     /** @type {?} */
-                    var s = _this.risonString;
+                    const s = this.risonString;
                     /** @type {?} */
-                    var c = s.charAt(_this.index++);
+                    const c = s.charAt(this.index++);
                     if (!c) {
-                        return _this.error('"!" at end of input');
+                        return this.error('"!" at end of input');
                     }
                     /** @type {?} */
-                    var x = _this.bangs[c];
+                    const x = this.bangs[c];
                     if (typeof x === 'function') {
-                        return x.call(null, _this);
+                        return x.call(null, this);
                     }
                     else if (typeof x === 'undefined') {
-                        return _this.error('unknown literal: "!' + c + '"');
+                        return this.error('unknown literal: "!' + c + '"');
                     }
                     return x;
                 }),
                 '(': (/**
                  * @return {?}
                  */
-                function () {
+                () => {
                     /** @type {?} */
-                    var o = {};
+                    const o = {};
                     /** @type {?} */
-                    var c;
+                    let c;
                     /** @type {?} */
-                    var count = 0;
-                    while ((c = _this.next()) !== ')') {
+                    let count = 0;
+                    while ((c = this.next()) !== ')') {
                         if (count) {
                             if (c !== ',') {
-                                _this.error('missing \',\'');
+                                this.error('missing \',\'');
                             }
                         }
                         else if (c === ',') {
-                            return _this.error('extra \',\'');
+                            return this.error('extra \',\'');
                         }
                         else {
-                            --_this.index;
+                            --this.index;
                         }
                         /** @type {?} */
-                        var k = _this.readValue();
+                        const k = this.readValue();
                         if (typeof k === 'undefined') {
                             return undefined;
                         }
-                        if (_this.next() !== ':') {
-                            return _this.error('missing \':\'');
+                        if (this.next() !== ':') {
+                            return this.error('missing \':\'');
                         }
                         /** @type {?} */
-                        var v = _this.readValue();
+                        const v = this.readValue();
                         if (typeof v === 'undefined') {
                             return undefined;
                         }
@@ -104,24 +108,24 @@
                 '\'': (/**
                  * @return {?}
                  */
-                function () {
+                () => {
                     /** @type {?} */
-                    var s = _this.risonString;
+                    const s = this.risonString;
                     /** @type {?} */
-                    var i = _this.index;
+                    let i = this.index;
                     /** @type {?} */
-                    var start = i
+                    let start = i
                     // tslint:disable-next-line: no-any
                     ;
                     // tslint:disable-next-line: no-any
                     /** @type {?} */
-                    var segments = [];
+                    const segments = [];
                     /** @type {?} */
-                    var c;
+                    let c;
                     while ((c = s.charAt(i++)) !== '\'') {
                         // if (i == s.length) return this.error('unmatched "\'"');
                         if (!c) {
-                            return _this.error('unmatched "\'"');
+                            return this.error('unmatched "\'"');
                         }
                         if (c === '!') {
                             if (start < i - 1) {
@@ -132,7 +136,7 @@
                                 segments.push(c);
                             }
                             else {
-                                return _this.error('invalid string escape: "!' + c + '"');
+                                return this.error('invalid string escape: "!' + c + '"');
                             }
                             start = i;
                         }
@@ -140,7 +144,7 @@
                     if (start < i - 1) {
                         segments.push(s.slice(start, i - 1));
                     }
-                    _this.index = i;
+                    this.index = i;
                     return segments.length === 1 ? segments[0] : segments.join('');
                 }),
                 // Also any digit.  The statement that follows this table
@@ -148,26 +152,26 @@
                 '-': (/**
                  * @return {?}
                  */
-                function () {
+                () => {
                     /** @type {?} */
-                    var s = _this.risonString;
+                    let s = this.risonString;
                     /** @type {?} */
-                    var i = _this.index;
+                    let i = this.index;
                     /** @type {?} */
-                    var start = i - 1;
+                    const start = i - 1;
                     /** @type {?} */
-                    var state = 'int';
+                    let state = 'int';
                     /** @type {?} */
-                    var permittedSigns = '-';
+                    let permittedSigns = '-';
                     /** @type {?} */
-                    var transitions = {
+                    const transitions = {
                         'int+.': 'frac',
                         'int+e': 'exp',
                         'frac+e': 'exp',
                     };
                     do {
                         /** @type {?} */
-                        var c = s.charAt(i++);
+                        const c = s.charAt(i++);
                         if (!c) {
                             break;
                         }
@@ -183,10 +187,10 @@
                             permittedSigns = '-';
                         }
                     } while (state);
-                    _this.index = --i;
+                    this.index = --i;
                     s = s.slice(start, i);
                     if (s === '-') {
-                        return _this.error('invalid number');
+                        return this.error('invalid number');
                     }
                     if (UTILS.LEADING_OR_TRAILING_ZERO(s)) {
                         return s;
@@ -203,7 +207,7 @@
                 '(': this.parseArray,
             };
             // copy table['-'] to each of table[i] | i <- '0'..'9':
-            for (var i = 0; i <= 9; i++) {
+            for (let i = 0; i <= 9; i++) {
                 this.table[String(i)] = this.table['-'];
             }
         }
@@ -211,14 +215,10 @@
          * @param {?} risonString
          * @return {?}
          */
-        RisonParser.prototype.parse = /**
-         * @param {?} risonString
-         * @return {?}
-         */
-        function (risonString) {
+        parse(risonString) {
             this.risonString = risonString;
             /** @type {?} */
-            var value = this.readValue();
+            let value = this.readValue();
             if (!this.message && this.next()) {
                 value = this.error('unable to parse string as rison: \'' + risonString + '\'');
             }
@@ -226,28 +226,24 @@
                 this.errorHandler(this.message, this.index);
             }
             return value;
-        };
+        }
         /**
          * @private
          * @return {?}
          */
-        RisonParser.prototype.readValue = /**
-         * @private
-         * @return {?}
-         */
-        function () {
+        readValue() {
             /** @type {?} */
-            var character = this.next();
+            const character = this.next();
             /** @type {?} */
-            var parseFn = character && this.table[character];
+            const parseFn = character && this.table[character];
             if (parseFn) {
                 return parseFn.apply(this);
             }
             // fell through table, parse as an id
             /** @type {?} */
-            var s = this.risonString;
+            const s = this.risonString;
             /** @type {?} */
-            var i = this.index - 1
+            const i = this.index - 1
             // Regexp.lastIndex may not work right in IE before 5.5?
             // g flag on the regexp is also necessary
             ;
@@ -255,13 +251,13 @@
             // g flag on the regexp is also necessary
             UTILS.NEXT_ID.lastIndex = i;
             /** @type {?} */
-            var m = UTILS.NEXT_ID.exec(s)
+            const m = UTILS.NEXT_ID.exec(s)
             // console.log('matched id', i, r.lastIndex);
             ;
             // console.log('matched id', i, r.lastIndex);
             if (m && m.length > 0) {
                 /** @type {?} */
-                var id = m[0];
+                const id = m[0];
                 this.index = i + id.length;
                 return id; // a string
             }
@@ -269,20 +265,16 @@
                 return this.error('invalid character: \'' + character + '\'');
             }
             return this.error('empty expression');
-        };
+        }
         /**
          * @private
          * @return {?}
          */
-        RisonParser.prototype.next = /**
-         * @private
-         * @return {?}
-         */
-        function () {
+        next() {
             /** @type {?} */
-            var character;
+            let character;
             /** @type {?} */
-            var ind = this.index;
+            let ind = this.index;
             do {
                 if (this.index === this.risonString.length) {
                     return undefined;
@@ -291,38 +283,28 @@
             } while (this.whitespace.indexOf(character) >= 0);
             this.index = ind;
             return character;
-        };
+        }
         /**
          * @private
          * @param {?} message
          * @return {?}
          */
-        RisonParser.prototype.error = /**
-         * @private
-         * @param {?} message
-         * @return {?}
-         */
-        function (message) {
+        error(message) {
             console.error('Rison parser error: ', message);
             this.message = message;
             return undefined;
-        };
+        }
         /**
          * @private
          * @param {?} parser
          * @return {?}
          */
-        RisonParser.prototype.parseArray = /**
-         * @private
-         * @param {?} parser
-         * @return {?}
-         */
-        function (parser) {
+        parseArray(parser) {
             // tslint:disable-next-line: no-any
             /** @type {?} */
-            var ar = [];
+            const ar = [];
             /** @type {?} */
-            var c;
+            let c;
             while ((c = parser.next()) !== ')') {
                 if (!c) {
                     return parser.error('unmatched \'!(\'');
@@ -339,24 +321,23 @@
                     --parser.index;
                 }
                 /** @type {?} */
-                var n = parser.readValue();
+                const n = parser.readValue();
                 if (typeof n === 'undefined') {
                     return undefined;
                 }
                 ar.push(n);
             }
             return ar;
-        };
-        return RisonParser;
-    }());
+        }
+    }
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: lib/rison-stringifier.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var RisonStringifier = /** @class */ (function () {
-        function RisonStringifier() {
-            var _this = this;
+    class RisonStringifier {
+        constructor() {
             // url-ok but quoted in strings
             this.sq = { '\'': true, '!': true };
             this.stringMap = {
@@ -364,36 +345,36 @@
                  * @param {?} arr
                  * @return {?}
                  */
-                function (arr) {
+                (arr) => {
                     /** @type {?} */
-                    var stringParts = arr.map((/**
+                    const stringParts = arr.map((/**
                      * @param {?} rawValue
                      * @return {?}
                      */
-                    function (rawValue) {
+                    rawValue => {
                         /** @type {?} */
-                        var fn = _this.stringMap[typeof rawValue];
+                        const fn = this.stringMap[typeof rawValue];
                         if (fn) {
                             return fn(rawValue);
                         }
                     }));
-                    return "!(" + stringParts.join(',') + ")";
+                    return `!(${stringParts.join(',')})`;
                 }),
                 boolean: (/**
                  * @param {?} bool
                  * @return {?}
                  */
-                function (bool) { return (bool ? '!t' : '!f'); }),
+                (bool) => (bool ? '!t' : '!f')),
                 null: (/**
                  * @param {?} n
                  * @return {?}
                  */
-                function (n) { return '!n'; }),
+                (n) => '!n'),
                 number: (/**
                  * @param {?} num
                  * @return {?}
                  */
-                function (num) {
+                (num) => {
                     if (!isFinite(num)) {
                         return '!n';
                     }
@@ -404,30 +385,30 @@
                  * @param {?} obj
                  * @return {?}
                  */
-                function (obj) {
+                (obj) => {
                     if (obj) {
                         if (obj instanceof Array) {
-                            return _this.stringMap.array(obj);
+                            return this.stringMap.array(obj);
                         }
                         if (typeof obj.__prototype__ === 'object' && typeof obj.__prototype__.encode_rison !== 'undefined') {
                             return obj.encode_rison();
                         }
                         /** @type {?} */
-                        var keys = Object.keys(obj);
+                        const keys = Object.keys(obj);
                         keys.sort();
                         /** @type {?} */
-                        var stringParts = keys.map((/**
+                        const stringParts = keys.map((/**
                          * @param {?} key
                          * @return {?}
                          */
-                        function (key) {
+                        key => {
                             /** @type {?} */
-                            var rawValue = obj[key];
+                            const rawValue = obj[key];
                             /** @type {?} */
-                            var fn = _this.stringMap[typeof rawValue];
-                            return _this.stringMap.string(key) + ":" + fn(rawValue);
+                            const fn = this.stringMap[typeof rawValue];
+                            return `${this.stringMap.string(key)}:${fn(rawValue)}`;
                         }));
-                        return "(" + stringParts.join(',') + ")";
+                        return `(${stringParts.join(',')})`;
                     }
                     return '!n';
                 }),
@@ -435,9 +416,9 @@
                  * @param {?} str
                  * @return {?}
                  */
-                function (str) {
+                (str) => {
                     if (str === '') {
-                        return "''";
+                        return `''`;
                     }
                     if (!isNaN((/** @type {?} */ (((/** @type {?} */ (str)))))) && UTILS.LEADING_OR_TRAILING_ZERO(str)) {
                         return str;
@@ -446,24 +427,24 @@
                         return str;
                     }
                     /** @type {?} */
-                    var formattedString = str.replace(/(['!])/g, (/**
+                    const formattedString = str.replace(/(['!])/g, (/**
                      * @param {?} a
                      * @param {?} b
                      * @return {?}
                      */
-                    function (a, b) {
-                        if (_this.sq[b]) {
+                    (a, b) => {
+                        if (this.sq[b]) {
                             return '!' + b;
                         }
                         return b;
                     }));
-                    return "'" + formattedString + "'";
+                    return `'${formattedString}'`;
                 }),
                 undefined: (/**
                  * @param {?} x
                  * @return {?}
                  */
-                function (x) {
+                x => {
                     throw new Error('rison can\'t encode the undefined value');
                 }),
             };
@@ -472,85 +453,60 @@
          * @param {?} obj
          * @return {?}
          */
-        RisonStringifier.prototype.stringify = /**
-         * @param {?} obj
-         * @return {?}
-         */
-        function (obj) {
+        stringify(obj) {
             return this.stringMap[typeof obj](obj);
-        };
-        return RisonStringifier;
-    }());
+        }
+    }
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: lib/rison.service.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var RisonService = /** @class */ (function () {
-        function RisonService() {
+    class RisonService {
+        /**
+         * This method Rison-encodes a javascript structure.
+         * @param {?} obj
+         * @return {?}
+         */
+        stringify(obj) {
+            return new RisonStringifier().stringify(obj);
         }
         /**
-         * This method Rison-encodes a javascript structure.
-         */
-        /**
-         * This method Rison-encodes a javascript structure.
-         * @param {?} obj
-         * @return {?}
-         */
-        RisonService.prototype.stringify = /**
-         * This method Rison-encodes a javascript structure.
-         * @param {?} obj
-         * @return {?}
-         */
-        function (obj) {
-            return new RisonStringifier().stringify(obj);
-        };
-        /**
-         * This method parses a rison string into a javascript object or primitive
-         */
-        /**
          * This method parses a rison string into a javascript object or primitive
          * @param {?} url
          * @return {?}
          */
-        RisonService.prototype.parse = /**
-         * This method parses a rison string into a javascript object or primitive
-         * @param {?} url
-         * @return {?}
-         */
-        function (url) {
+        parse(url) {
             /** @type {?} */
-            var errorCb = (/**
+            const errorCb = (/**
              * @param {?} e
              * @return {?}
              */
-            function (e) {
+            (e) => {
                 throw Error('rison decoder error: ' + e);
             });
             /** @type {?} */
-            var parser = new RisonParser(errorCb);
+            const parser = new RisonParser(errorCb);
             return parser.parse(url);
-        };
-        RisonService.decorators = [
-            { type: core.Injectable }
-        ];
-        return RisonService;
-    }());
+        }
+    }
+    RisonService.decorators = [
+        { type: core.Injectable }
+    ];
 
     /**
      * @fileoverview added by tsickle
-     * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+     * Generated from: lib/ng-rison.module.ts
+     * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    var NgRisonModule = /** @class */ (function () {
-        function NgRisonModule() {
-        }
-        NgRisonModule.decorators = [
-            { type: core.NgModule, args: [{
-                        providers: [RisonService],
-                    },] }
-        ];
-        return NgRisonModule;
-    }());
+    class NgRisonModule {
+    }
+    NgRisonModule.decorators = [
+        { type: core.NgModule, args: [{
+                    providers: [RisonService],
+                },] }
+    ];
 
     exports.NgRisonModule = NgRisonModule;
     exports.RisonParser = RisonParser;
@@ -560,5 +516,5 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=ng-rison.umd.js.map
