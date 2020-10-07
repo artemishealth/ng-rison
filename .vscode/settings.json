@@ -35,7 +35,7 @@
   "files.trimTrailingWhitespace": true,
   "html.format.enable": true,
   "html.format.wrapAttributes": "force-aligned",
-  "javascript.preferences.importModuleSpecifier": "relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "prettier.disableLanguages": ["html"],
   "search.exclude": {
@@ -50,7 +50,7 @@
     "tmp": true,
     "coverage": true
   },
-  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "always"
 }
